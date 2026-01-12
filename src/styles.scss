@@ -9,6 +9,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "@carbon/charts-angular/styles.css";
+
 html {
   @include styles.theme(styles.$white);
 }

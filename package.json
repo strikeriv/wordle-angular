@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/platform-server": "^18.2.0",
     "@angular/router": "^18.2.0",
+    "@carbon/charts-angular": "^1.18.0",
     "@carbon/icons": "^11.72.0",
     "@carbon/styles": "^1.97.0",
     "@tailwindcss/postcss": "^4.1.18",
