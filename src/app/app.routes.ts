@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { TestComponent } from './features/test/test.component';
+import { AnalysisComponent } from './features/analysis/analysis.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: TestComponent,
+    path: 'analysis',
+    component: AnalysisComponent,
   },
 ];
