@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
-import { WordleService } from '../wordle.service';
 import {
-  Position,
   LetterPositionFrequency,
+  Position,
 } from './model/frequency-analysis.model';
 
 @Injectable()
 export class FrequencyAnalysisService {
-  constructor(private readonly wordleService: WordleService) {}
+  constructor() {}
 
-  performFrequencyAnalysisOnPreviousSolutions() {
-    const existingSolutions = this.wordleService.getExistingSolutions();
+  performFrequencyAnalysisOnWords(words: string[]) {
     const positionMap = new Map<string, Map<Position, number>>();
 
-    existingSolutions.forEach((word) => {
+    words.forEach((word) => {
       word.split('').forEach((letter, index) => {
         const letterPositionMap = positionMap.get(letter);
 

@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { WordleService } from '../../services/wordle/wordle.service';
 import { FrequencyAnalysisService } from '../../services/wordle/analyzer/frequency-analysis.service';
 import { ChartsModule, ChartTabularData } from '@carbon/charts-angular';
+import { DataService } from '../../services/wordle/data.service';
 
 @Component({
   selector: 'app-analysis',
   standalone: true,
   imports: [ChartsModule],
-  providers: [FrequencyAnalysisService, WordleService],
+  providers: [DataService, FrequencyAnalysisService, WordleService],
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
 })
 export class AnalysisComponent implements OnInit {
-  data = [
+  data: ChartTabularData = [
     {
       group: 'Dataset 1',
       key: 'Qty',
@@ -117,9 +118,6 @@ export class AnalysisComponent implements OnInit {
 
   options = {
     title: 'Pre-selected groups (grouped bar)',
-    data: {
-      selectedGroups: ['Dataset 1', 'Dataset 3'],
-    },
     axes: {
       left: {
         mapsTo: 'value',
@@ -133,12 +131,29 @@ export class AnalysisComponent implements OnInit {
   };
 
   constructor(
+    private readonly dataService: DataService,
     private readonly frequencyAnalysisService: FrequencyAnalysisService
   ) {}
 
   ngOnInit(): void {
-    console.log(
-      this.frequencyAnalysisService.performFrequencyAnalysisOnPreviousSolutions()
+    this.buildPreExistingSolutionsFrequencyChart();
+  }
+
+  private buildPreExistingSolutionsFrequencyChart() {
+    const frequencyData =
+      this.frequencyAnalysisService.performFrequencyAnalysisOnWords(
+        this.dataService.getExistingSolutions()
+      );
+
+    const testData: ChartTabularData = frequencyData.flatMap((letter) =>
+      letter.frequencies.map((freq) => ({
+        group: letter.letter,
+        key: `Position: ${freq.position + 1}`,
+        value: freq.frequency,
+      }))
     );
+
+    console.log(testData, 'yo');
+    this.data = testData;
   }
 }
