@@ -1,0 +1,113 @@
+@keyframes flipLetterIncorrect {
+  0% {
+    background-color: transparent;
+    border-color: #565758;
+
+    transform: rotateX(0deg);
+  }
+  50% {
+    background-color: transparent;
+    border-color: #565758;
+
+    transform: rotateX(90deg);
+  }
+  51% {
+    background-color: #3a3a3c;
+    border-color: transparent;
+  }
+  100% {
+    background-color: #3a3a3c;
+    border-color: transparent;
+
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes flipLetterSemiCorrect {
+  0% {
+    background-color: transparent;
+    border-color: #565758;
+
+    transform: rotateX(0deg);
+  }
+  50% {
+    background-color: transparent;
+    border-color: #565758;
+
+    transform: rotateX(90deg);
+  }
+  51% {
+    border-color: transparent;
+    background-color: #b59f3b;
+  }
+  100% {
+    border-color: transparent;
+    background-color: #b59f3b;
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes flipLetterCorrect {
+  0% {
+    background-color: transparent;
+    border-color: #565758;
+
+    transform: rotateX(0deg);
+  }
+  50% {
+    background-color: transparent;
+    border-color: #565758;
+
+    transform: rotateX(90deg);
+  }
+  51% {
+    background-color: #538d4e;
+    border-color: transparent;
+  }
+  100% {
+    background-color: #538d4e;
+    border-color: transparent;
+
+    transform: rotateX(0deg);
+  }
+}
+
+.base {
+  display: flex;
+
+  width: 64px;
+  height: 64px;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 38px;
+  font-weight: bold;
+
+  background-color: transparent;
+  border: 3px solid #3a3a3c;
+
+  color: white;
+}
+
+.filled {
+  border-color: #565758;
+}
+
+.incorrect {
+  animation: flipLetterIncorrect 1s;
+  animation-delay: var(--delay);
+  animation-fill-mode: forwards;
+}
+
+.semi-correct {
+  animation: flipLetterSemiCorrect 1s;
+  animation-delay: var(--delay);
+  animation-fill-mode: forwards;
+}
+
+.correct {
+  animation: flipLetterCorrect 1s;
+  animation-delay: var(--delay);
+  animation-fill-mode: forwards;
+}

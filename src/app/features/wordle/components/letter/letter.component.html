@@ -1,0 +1,10 @@
+<div
+  class="base"
+  [style.--delay]="index() * 200 + 'ms'"
+  [class.filled]="!!letter()"
+  [class.incorrect]="attributes().isIncorrect"
+  [class.semi-correct]="attributes().isSemiCorrect"
+  [class.correct]="attributes().isCorrect"
+>
+  <span>{{ letter() }}</span>
+</div>

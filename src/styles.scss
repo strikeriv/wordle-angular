@@ -11,6 +11,27 @@
 
 @import "@carbon/charts-angular/styles.css";
 
-html {
+html,
+body {
   @include styles.theme(styles.$white);
+
+  height: 100vh;
+  margin: 0;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+main > :not(router-outlet) {
+  flex: 1;
+  width: 100%;
 }
