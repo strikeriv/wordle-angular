@@ -1,20 +1,30 @@
-import { Component, HostListener, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { ChartsModule, ChartTabularData } from '@carbon/charts-angular';
 import { FrequencyAnalysisService } from '../../services/wordle/analyzer/frequency-analysis.service';
 import { DataService } from '../../services/wordle/data.service';
 import { WordleService } from '../../services/wordle/wordle.service';
-import { WordleRowComponent } from '../wordle/components/row/row/row.component';
-import { Subject } from 'rxjs';
+import { WordleRowComponent } from '../wordle/components/row/row.component';
+import { WordleNotificationComponent } from '../wordle/components/notification/notification.component';
 
 @Component({
   selector: 'app-analysis',
   standalone: true,
-  imports: [WordleRowComponent, ChartsModule],
+  imports: [WordleRowComponent, ChartsModule, WordleNotificationComponent],
   providers: [DataService, FrequencyAnalysisService, WordleService],
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
 })
 export class AnalysisComponent implements OnInit {
+  @ViewChild('notification') notification!: WordleNotificationComponent;
+
+  notificationMessage: string = '';
+
   data: ChartTabularData = [];
   options = {
     title: 'Pre-existing Solutions Frequency Graph',
@@ -35,10 +45,11 @@ export class AnalysisComponent implements OnInit {
   );
   wordleRowsSubmitted = signal<boolean[]>(new Array(6).fill(false));
 
-  solution = 'AMONG';
+  solution = 'PURPY';
 
   constructor(
     private readonly dataService: DataService,
+    private readonly wordleService: WordleService,
     private readonly frequencyAnalysisService: FrequencyAnalysisService
   ) {}
 
@@ -110,9 +121,25 @@ export class AnalysisComponent implements OnInit {
     }
 
     const currentLetter = this.getCurrentWordleRowLetter(currentRow);
-    console.log(currentLetter);
     if (currentLetter !== -1) {
-      return; // row is not filled (cannot submit)
+      // row is not filled (cannot submit)
+      this.notificationMessage = 'Not enough letters';
+      this.notification.show();
+
+      return;
+    }
+
+    // validate the guess before we allow them to guess
+    const guess = this.wordleRowsLetters[currentRow].join('');
+    // const isValidGuess = this.wordleService.validateGuess(guess);
+    const isValidGuess = true;
+
+    if (!isValidGuess) {
+      // show a notification saying it's invalid!
+      this.notificationMessage = 'Not in word list';
+      this.notification.show();
+
+      return;
     }
 
     this.wordleRowsSubmitted.update((oldArray) => {
@@ -120,8 +147,6 @@ export class AnalysisComponent implements OnInit {
       newArray[currentRow] = true;
       return newArray;
     });
-
-    console.log(this.wordleRowsSubmitted, 'updated');
   }
 
   private buildPreExistingSolutionsFrequencyChart() {

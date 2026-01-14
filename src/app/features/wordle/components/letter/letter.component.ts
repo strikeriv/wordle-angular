@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { LetterAttributes } from '../row/row/interfaces/row.interface';
+import { LetterAttributes } from '../row/interfaces/row.interface';
 
 @Component({
   selector: 'app-letter',

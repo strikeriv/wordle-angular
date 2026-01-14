@@ -15,6 +15,8 @@ html,
 body {
   @include styles.theme(styles.$white);
 
+  background-color: black;
+
   height: 100vh;
   margin: 0;
 }

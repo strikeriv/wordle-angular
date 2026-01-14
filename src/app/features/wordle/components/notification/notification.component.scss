@@ -1,0 +1,12 @@
+@keyframes notificationSlideIn {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.notification {
+  animation: notificationSlideIn 0.5s 1s forwards;
+}
