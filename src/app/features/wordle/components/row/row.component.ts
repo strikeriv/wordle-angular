@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { WordleService } from '../../../../services/wordle/wordle.service';
 import { RowAttributes } from '../../interfaces/wordle.interface';
 import { LetterComponent } from '../letter/letter.component';
@@ -12,27 +12,24 @@ import { LetterAttributes } from './interfaces/row.interface';
   styleUrl: './row.component.scss',
 })
 export class WordleRowComponent {
+  index = input.required<number>();
+
   letters = input.required<string[]>();
   solution = input.required<string>();
   rowAttributes = input.required<RowAttributes>();
 
-  letterAttributes: LetterAttributes[] = Array.from({ length: 5 }, () => ({
-    ...this.buildDefaultAttributes(),
-  }));
+  letterAttributes = signal<LetterAttributes[]>(
+    Array.from({ length: 5 }, () => this.buildDefaultAttributes())
+  );
+
+  gameOver = output<number>(); // return # attempts
 
   constructor(private readonly wordleService: WordleService) {
-    // effect(() => {
-    //   if (this.rowAttributes().isLocked) {
-    //     return this.onGuessSubmitted();
-    //   }
-    // });
-  }
-
-  private onGuessSubmitted() {
-    // first, check to see if the row is complete
-    if (!this.isRowComplete()) {
-      return;
-    }
+    effect(() => {
+      if (this.rowAttributes().isSubmitted) {
+        return this.performSolutionCheck();
+      }
+    });
   }
 
   private performSolutionCheck() {
@@ -40,52 +37,54 @@ export class WordleRowComponent {
     const letterCounts = this.wordleService.calculateLetterCount(
       this.solution()
     );
-
     const existingLetters = new Map<string, number>();
 
-    console.log(letterCounts, existingLetters);
+    const isCorrectSolution = this.solution() === this.letters().join('');
 
+    // perform one pass to update correct letters
     this.letters().forEach((letter, index) => {
-      const solutionLetter = solutionSplit[index];
+      if (letter === solutionSplit[index]) {
+        this.letterAttributes()[index].isCorrect = true;
+        const count = existingLetters.get(letter) || 0;
+        existingLetters.set(letter, count + 1);
 
-      if (letter === solutionLetter) {
-        const existingCount = existingLetters.get(letter) || 0;
-        existingLetters.set(letter, existingCount + 1);
+        // add bounce if correct solution
+        if (isCorrectSolution) {
+          this.letterAttributes()[index].isBouncing = true;
+        }
+      }
+    });
 
-        this.letterAttributes[index].isCorrect = true;
-      } else if (solutionSplit.includes(letter)) {
-        // we need to do a bit of extra logic here
-        // words can have more than one letter if included,
-        // so we need to keep track of that, and
-        // only highlight the # that are included and nothing more
+    // perform pass 2 to update incorrect & semi-correct
+    // this prevent multiple letters from being parked
+    if (isCorrectSolution) {
+      setTimeout(() => this.gameOver.emit(this.index()), 1500);
+    } else {
+      this.letters().forEach((letter, index) => {
+        if (this.letterAttributes()[index].isCorrect) return;
+
         const letterCount = letterCounts.get(letter) || 0;
         const existingCount = existingLetters.get(letter) || 0;
 
-        if (existingCount >= letterCount) {
-          // the count "guessed" is passed the amount in the word
-          // so, we skip the incorrect and directly go to incorrect
-
-          this.letterAttributes[index].isIncorrect = true;
-          return;
+        if (solutionSplit.includes(letter) && existingCount < letterCount) {
+          this.letterAttributes()[index].isSemiCorrect = true;
+          existingLetters.set(letter, existingCount + 1);
+        } else {
+          this.letterAttributes()[index].isIncorrect = true;
         }
+      });
+    }
 
-        existingLetters.set(letter, existingCount + 1);
-
-        this.letterAttributes[index].isSemiCorrect = true;
-      } else {
-        this.letterAttributes[index].isIncorrect = true;
-      }
-
-      console.log(this.letterAttributes[index], 'hmm');
-    });
-  }
-
-  private isRowComplete() {
-    return this.letters().every((letter) => !!letter);
+    // if the row is index 5, and we didn't hit above, the game is a fail
+    if (this.index() === 5) {
+      setTimeout(() => this.gameOver.emit(6), 1500);
+    }
   }
 
   private buildDefaultAttributes(): LetterAttributes {
     return {
+      isBouncing: false,
+
       isIncorrect: false,
       isSemiCorrect: false,
       isCorrect: false,

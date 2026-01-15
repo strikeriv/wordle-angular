@@ -1,0 +1,18 @@
+import { Component, input, output } from '@angular/core';
+
+@Component({
+  selector: 'keyboard-key',
+  standalone: true,
+  imports: [],
+  templateUrl: './key.component.html',
+  styleUrl: './key.component.scss',
+})
+export class KeyboardKeyComponent {
+  key = input.required<string>();
+
+  keyPressed = output<string>();
+
+  onKeyPressed() {
+    this.keyPressed.emit(this.key());
+  }
+}

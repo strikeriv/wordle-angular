@@ -1,4 +1,6 @@
-<wordle-game />
+@if(wordleSolution()) {
+<wordle-game [solution]="wordleSolution()" />
+}
 
 <!-- <p>analysis works!</p>
 

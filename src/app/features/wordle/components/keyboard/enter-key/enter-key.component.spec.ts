@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { EnterKeyComponent } from './enter-key.component';
+
+describe('EnterKeyComponent', () => {
+  let component: EnterKeyComponent;
+  let fixture: ComponentFixture<EnterKeyComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [EnterKeyComponent]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(EnterKeyComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

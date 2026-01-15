@@ -1,38 +1,52 @@
-import { Component, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener, input, OnInit, signal } from '@angular/core';
 
 import { WordleNotificationComponent } from '../../features/wordle/components/notification/notification.component';
 import { NotificationService } from '../../features/wordle/components/notification/services/notification.service';
 import { WordleRowComponent } from '../../features/wordle/components/row/row.component';
 import { RowAttributes } from '../../features/wordle/interfaces/wordle.interface';
+import { DataService } from '../../services/wordle/data.service';
 import { WordleService } from '../../services/wordle/wordle.service';
+import { WordleKeyboardComponent } from './components/keyboard/keyboard.component';
 
 @Component({
   selector: 'wordle-game',
   standalone: true,
-  imports: [WordleNotificationComponent, WordleRowComponent],
-  providers: [NotificationService, WordleService],
+  imports: [
+    WordleKeyboardComponent,
+    WordleNotificationComponent,
+    WordleRowComponent,
+  ],
+  providers: [DataService, NotificationService, WordleService],
   templateUrl: './wordle.component.html',
   styleUrl: './wordle.component.scss',
 })
-export class WordleGameComponent {
-  @ViewChild('notification') notification!: WordleNotificationComponent;
+export class WordleGameComponent implements OnInit {
+  solution = input.required<string>();
 
   notificationMessage: string = '';
 
   rows: string[][] = Array.from({ length: 6 }, () => new Array(5).fill(''));
-  rowAttributes: RowAttributes[] = Array.from({ length: 6 }, () => ({
-    ...this.buildRowAttributes(),
-  }));
+  rowAttributes = signal<RowAttributes[]>(
+    Array.from({ length: 6 }, () => this.buildRowAttributes())
+  );
 
-  solution = 'PURPY';
+  gameActive = true;
 
   constructor(
     private readonly notificationService: NotificationService,
     private readonly wordleService: WordleService
   ) {}
 
+  ngOnInit(): void {
+    console.log(this.solution(), 'solution!');
+  }
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
+    if (!this.gameActive) {
+      return;
+    }
+
     const { key } = event;
 
     if (key === 'Backspace') {
@@ -46,6 +60,30 @@ export class WordleGameComponent {
     if (/^[a-zA-Z]$/.test(key)) {
       return this.onLetterPress(key);
     }
+  }
+
+  onWordleKeyboardPressed(key: string) {
+    return this.handleKeyboardEvent({ key } as KeyboardEvent);
+  }
+
+  handleGameOver(attempts: number) {
+    const messages = [
+      'Genius',
+      'Magnificent',
+      'Impressive',
+      'Splendid',
+      'Great',
+      'Phew',
+    ];
+
+    if (attempts === 6) {
+      // failed game
+      this.notificationService.show(this.solution());
+    } else {
+      this.notificationService.show(messages[attempts]);
+    }
+
+    this.gameActive = false;
   }
 
   private onBackspacePress() {
@@ -70,18 +108,15 @@ export class WordleGameComponent {
   }
 
   private onEnterPress() {
-    this.shakeRowOnInvalidGuess(0);
-
     const currentRow = this.getCurrentWordleRow();
+    console.log(currentRow, 'row');
     if (currentRow === -1) {
       return; // no more rows to submit (failed game)
     }
 
     const currentLetter = this.getCurrentWordleRowLetter(currentRow);
-    console.log(currentLetter, this.rows);
     if (currentLetter !== -1) {
       // row is not filled (cannot submit)
-      console.log('showing not enough letters');
       this.notificationService.show('Not enough letters');
       this.shakeRowOnInvalidGuess(currentRow);
 
@@ -93,9 +128,18 @@ export class WordleGameComponent {
     const isValidGuess = this.wordleService.validateGuess(guess);
     if (!isValidGuess) {
       // show a notification saying it's invalid!
-      console.log('showing not in word list');
       this.notificationService.show('Not in word list');
+      this.shakeRowOnInvalidGuess(currentRow);
+
+      return;
     }
+
+    // guess is valid, we submit their guess
+    this.rowAttributes.update((prev) =>
+      prev.map((attr, i) =>
+        i === currentRow ? { ...attr, isSubmitted: true } : attr
+      )
+    );
   }
 
   private onLetterPress(letter: string) {
@@ -109,24 +153,33 @@ export class WordleGameComponent {
   }
 
   private getCurrentWordleRow() {
-    return this.rowAttributes.findIndex((row) => !row.isLocked);
+    return this.rowAttributes().findIndex((row) => !row.isSubmitted);
   }
 
   private getCurrentWordleRowLetter(rowIndex: number) {
     return this.rows[rowIndex].findIndex((letter) => !letter);
   }
 
-  private shakeRowOnInvalidGuess(row: number) {
-    this.rowAttributes[row].isShaking = true;
+  private shakeRowOnInvalidGuess(rowIndex: number) {
+    this.rowAttributes.update((prev) =>
+      prev.map((attr, i) =>
+        i === rowIndex ? { ...attr, isShaking: true } : attr
+      )
+    );
 
-    // remove shaking attribute to stop shaking
-    setTimeout(() => (this.rowAttributes[row].isShaking = false), 500);
+    setTimeout(() => {
+      this.rowAttributes.update((prev) =>
+        prev.map((attr, i) =>
+          i === rowIndex ? { ...attr, isShaking: false } : attr
+        )
+      );
+    }, 500);
   }
 
   private buildRowAttributes(): RowAttributes {
     return {
       isShaking: false,
-      isLocked: false,
+      isSubmitted: false,
     };
   }
 }

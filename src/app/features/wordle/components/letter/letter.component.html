@@ -1,7 +1,9 @@
 <div
   class="base"
-  [style.--delay]="index() * 200 + 'ms'"
+  [style.--delay-flip]="index() * 200 + 'ms'"
+  [style.--delay-bounce]="index() * 100 + 'ms'"
   [class.filled]="!!letter()"
+  [class.bounce]="attributes().isBouncing"
   [class.incorrect]="attributes().isIncorrect"
   [class.semi-correct]="attributes().isSemiCorrect"
   [class.correct]="attributes().isCorrect"

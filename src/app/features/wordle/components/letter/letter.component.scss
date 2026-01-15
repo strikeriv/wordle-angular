@@ -72,6 +72,24 @@
   }
 }
 
+@keyframes bounceOnCorrectSolution {
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(-16px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  75% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
 @keyframes popOnFilled {
   0% {
     scale: 1;
@@ -80,6 +98,7 @@
     scale: 1.1;
   }
 }
+
 .base {
   display: flex;
   user-select: none;
@@ -106,19 +125,26 @@
 }
 
 .incorrect {
-  animation: flipLetterIncorrect 1s;
-  animation-delay: var(--delay);
+  animation: flipLetterIncorrect 0.75s;
+  animation-delay: var(--delay-flip);
   animation-fill-mode: forwards;
 }
 
 .semi-correct {
-  animation: flipLetterSemiCorrect 1s;
-  animation-delay: var(--delay);
+  animation: flipLetterSemiCorrect 0.75s;
+  animation-delay: var(--delay-flip);
   animation-fill-mode: forwards;
 }
 
 .correct {
-  animation: flipLetterCorrect 1s;
-  animation-delay: var(--delay);
+  animation: flipLetterCorrect 0.75s;
+  animation-delay: var(--delay-flip);
   animation-fill-mode: forwards;
+}
+
+.correct.bounce {
+  z-index: 25;
+
+  animation: flipLetterCorrect 0.75s var(--delay-flip) forwards,
+    bounceOnCorrectSolution 0.5s calc(1500ms + var(--delay-bounce));
 }

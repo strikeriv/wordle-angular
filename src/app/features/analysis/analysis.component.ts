@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { ChartsModule, ChartTabularData } from '@carbon/charts-angular';
 import { FrequencyAnalysisService } from '../../services/wordle/analyzer/frequency-analysis.service';
 import { DataService } from '../../services/wordle/data.service';
@@ -29,10 +29,20 @@ export class AnalysisComponent implements OnInit {
     height: '400px',
   };
 
+  wordleSolution = signal<string>('');
+
   constructor(
     private readonly dataService: DataService,
     private readonly frequencyAnalysisService: FrequencyAnalysisService
-  ) {}
+  ) {
+    const words = this.dataService.getAllValidWords();
+    const min = 0;
+    const max = words.length;
+
+    this.wordleSolution.set(
+      words[Math.floor(Math.random() * (max - min + 1)) + min].toUpperCase()
+    );
+  }
 
   ngOnInit(): void {
     this.buildPreExistingSolutionsFrequencyChart();

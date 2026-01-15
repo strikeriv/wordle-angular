@@ -5,10 +5,17 @@
     @for(wordleRow of rows; track $index) {
     <wordle-row
       class="w-min"
+      [index]="$index"
       [letters]="rows[$index]"
-      [solution]="solution"
-      [rowAttributes]="rowAttributes[$index]"
+      [solution]="solution()"
+      [rowAttributes]="rowAttributes()[$index]"
+      (gameOver)="handleGameOver($event)"
     />
     }
   </div>
+
+  <wordle-keyboard
+    class="w-full"
+    (wordleKeyboardPressed)="onWordleKeyboardPressed($event)"
+  />
 </div>

@@ -1,0 +1,23 @@
+<div class="flex flex-col items-center justify-center gap-[6px]">
+  <div class="flex flex-row gap-[6px]">
+    @for(key of keyboardRow1; track $index) {
+    <keyboard-key [key]="key" (keyPressed)="onKeyboardButtonPress($event)" />
+    }
+  </div>
+  <div class="flex flex-row gap-[6px]">
+    @for(key of keyboardRow2; track $index) {
+    <keyboard-key [key]="key" (keyPressed)="onKeyboardButtonPress($event)" />
+    }
+  </div>
+  <div class="flex flex-row gap-[6px]">
+    <keyboard-enter-key (enterPressed)="onKeyboardButtonPress($event)" />
+
+    @for(key of keyboardRow3; track $index) {
+    <keyboard-key [key]="key" (keyPressed)="onKeyboardButtonPress($event)" />
+    }
+
+    <keyboard-backspace-key
+      (backspacePressed)="onKeyboardButtonPress($event)"
+    />
+  </div>
+</div>
