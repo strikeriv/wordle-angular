@@ -1,9 +1,7 @@
-@if(showNotification) {
-<div class="absolute top-32 w-full notification">
-  <div class="flex w-full justify-center">
-    <div class="p-4 rounded-md bg-white">
-      <span class="font-bold text-xl">Not enough letters</span>
-    </div>
+<div class="absolute top-2 left-0 w-full z-50 flex flex-col items-center gap-3">
+  @for (notification of notifications(); track notification.id) {
+  <div class="notification px-4 py-2 rounded-md bg-white">
+    <span class="text-black font-bold text-sm">{{ notification.message }}</span>
   </div>
+  }
 </div>
-}

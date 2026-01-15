@@ -1,9 +1,9 @@
-<div class="flex flex-row gap-2">
-  @for (letter of rowLetters(); track $index) {
+<div class="flex flex-row gap-[5px]" [class.shake]="rowAttributes().isShaking">
+  @for (letter of letters(); track $index) {
   <app-letter
     [index]="$index"
     [letter]="letter"
-    [attributes]="rowLetterAttributes[$index]"
+    [attributes]="letterAttributes[$index]"
   />
   }
 </div>

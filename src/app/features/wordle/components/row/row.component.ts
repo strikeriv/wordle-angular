@@ -1,7 +1,8 @@
 import { Component, effect, input } from '@angular/core';
+import { WordleService } from '../../../../services/wordle/wordle.service';
+import { RowAttributes } from '../../interfaces/wordle.interface';
 import { LetterComponent } from '../letter/letter.component';
 import { LetterAttributes } from './interfaces/row.interface';
-import { WordleService } from '../../../../services/wordle/wordle.service';
 
 @Component({
   selector: 'wordle-row',
@@ -11,21 +12,27 @@ import { WordleService } from '../../../../services/wordle/wordle.service';
   styleUrl: './row.component.scss',
 })
 export class WordleRowComponent {
-  isSubmitted = input.required<boolean>();
-  rowLetters = input.required<string[]>();
-
+  letters = input.required<string[]>();
   solution = input.required<string>();
+  rowAttributes = input.required<RowAttributes>();
 
-  rowLetterAttributes: LetterAttributes[] = Array.from({ length: 5 }, () => ({
+  letterAttributes: LetterAttributes[] = Array.from({ length: 5 }, () => ({
     ...this.buildDefaultAttributes(),
   }));
 
   constructor(private readonly wordleService: WordleService) {
-    effect(() => {
-      if (this.isSubmitted()) {
-        this.performSolutionCheck();
-      }
-    });
+    // effect(() => {
+    //   if (this.rowAttributes().isLocked) {
+    //     return this.onGuessSubmitted();
+    //   }
+    // });
+  }
+
+  private onGuessSubmitted() {
+    // first, check to see if the row is complete
+    if (!this.isRowComplete()) {
+      return;
+    }
   }
 
   private performSolutionCheck() {
@@ -38,14 +45,14 @@ export class WordleRowComponent {
 
     console.log(letterCounts, existingLetters);
 
-    this.rowLetters().forEach((letter, index) => {
+    this.letters().forEach((letter, index) => {
       const solutionLetter = solutionSplit[index];
 
       if (letter === solutionLetter) {
         const existingCount = existingLetters.get(letter) || 0;
         existingLetters.set(letter, existingCount + 1);
 
-        this.rowLetterAttributes[index].isCorrect = true;
+        this.letterAttributes[index].isCorrect = true;
       } else if (solutionSplit.includes(letter)) {
         // we need to do a bit of extra logic here
         // words can have more than one letter if included,
@@ -58,19 +65,23 @@ export class WordleRowComponent {
           // the count "guessed" is passed the amount in the word
           // so, we skip the incorrect and directly go to incorrect
 
-          this.rowLetterAttributes[index].isIncorrect = true;
+          this.letterAttributes[index].isIncorrect = true;
           return;
         }
 
         existingLetters.set(letter, existingCount + 1);
 
-        this.rowLetterAttributes[index].isSemiCorrect = true;
+        this.letterAttributes[index].isSemiCorrect = true;
       } else {
-        this.rowLetterAttributes[index].isIncorrect = true;
+        this.letterAttributes[index].isIncorrect = true;
       }
 
-      console.log(this.rowLetterAttributes[index], 'hmm');
+      console.log(this.letterAttributes[index], 'hmm');
     });
+  }
+
+  private isRowComplete() {
+    return this.letters().every((letter) => !!letter);
   }
 
   private buildDefaultAttributes(): LetterAttributes {

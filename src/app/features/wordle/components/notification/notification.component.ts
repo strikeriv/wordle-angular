@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component } from '@angular/core';
+import { NotificationService } from './services/notification.service';
 
 @Component({
   selector: 'wordle-notification',
@@ -8,14 +9,9 @@ import { Component, input } from '@angular/core';
   styleUrl: './notification.component.scss',
 })
 export class WordleNotificationComponent {
-  message = input.required<string>();
+  protected readonly notifications;
 
-  showNotification = false;
-
-  show() {
-    this.showNotification = true;
-    setTimeout(() => {
-      this.showNotification = false;
-    }, 1500);
+  constructor(private readonly notificationService: NotificationService) {
+    this.notifications = this.notificationService.notifications;
   }
 }

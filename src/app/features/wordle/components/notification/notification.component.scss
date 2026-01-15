@@ -1,4 +1,4 @@
-@keyframes notificationSlideIn {
+@keyframes notificationFadeOut {
   0% {
     opacity: 1;
   }
@@ -8,5 +8,5 @@
 }
 
 .notification {
-  animation: notificationSlideIn 0.5s 1s forwards;
+  animation: notificationFadeOut 0.25s 1s forwards;
 }
