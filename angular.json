@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "wordle-angular": {
+    "wordle": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/wordle-angular",
+            "outputPath": "dist/wordle",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "wordle-angular:build:production"
+              "buildTarget": "wordle:build:production"
             },
             "development": {
-              "buildTarget": "wordle-angular:build:development"
+              "buildTarget": "wordle:build:development"
             }
           },
           "defaultConfiguration": "development"

@@ -1,0 +1,12 @@
+name = "wordle"
+compatibility_date = "2026-01-15"
+
+[assets]
+directory = "./dist/wordle/browser"
+
+[[routes]]
+pattern = "wordle.nexum.dev"
+custom_domain = true
+
+[observability]
+enabled = true
