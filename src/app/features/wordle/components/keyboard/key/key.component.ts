@@ -1,4 +1,5 @@
 import { Component, input, output } from '@angular/core';
+import { KeyboardKeyState } from '../../../interfaces/wordle.interface';
 
 @Component({
   selector: 'keyboard-key',
@@ -9,6 +10,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class KeyboardKeyComponent {
   key = input.required<string>();
+  state = input.required<KeyboardKeyState>();
 
   keyPressed = output<string>();
 

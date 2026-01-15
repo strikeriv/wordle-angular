@@ -16,6 +16,7 @@
 
   <wordle-keyboard
     class="w-full"
+    [letterStates]="keyboardLetterStates()"
     (wordleKeyboardPressed)="onWordleKeyboardPressed($event)"
   />
 </div>

@@ -1,1 +1,9 @@
-<button class="base" (click)="onKeyPressed()">{{ key() }}</button>
+<button
+  class="base"
+  (click)="onKeyPressed()"
+  [class.incorrect]="state() === 'incorrect'"
+  [class.semi-correct]="state() === 'semicorrect'"
+  [class.correct]="state() === 'correct'"
+>
+  {{ key() }}
+</button>

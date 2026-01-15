@@ -2,3 +2,5 @@ export interface RowAttributes {
   isShaking: boolean; // whether or not to shake the row (on invalid submission)
   isSubmitted: boolean; // whether or not the row has been submitted / completed
 }
+
+export type KeyboardKeyState = 'correct' | 'semicorrect' | 'incorrect';

@@ -1,9 +1,19 @@
-import { Component, HostListener, input, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  HostListener,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 
 import { WordleNotificationComponent } from '../../features/wordle/components/notification/notification.component';
 import { NotificationService } from '../../features/wordle/components/notification/services/notification.service';
 import { WordleRowComponent } from '../../features/wordle/components/row/row.component';
-import { RowAttributes } from '../../features/wordle/interfaces/wordle.interface';
+import {
+  KeyboardKeyState,
+  RowAttributes,
+} from '../../features/wordle/interfaces/wordle.interface';
 import { DataService } from '../../services/wordle/data.service';
 import { WordleService } from '../../services/wordle/wordle.service';
 import { WordleKeyboardComponent } from './components/keyboard/keyboard.component';
@@ -30,12 +40,25 @@ export class WordleGameComponent implements OnInit {
     Array.from({ length: 6 }, () => this.buildRowAttributes())
   );
 
+  guesses = signal<string[]>([]);
   gameActive = true;
+
+  keyboardLetterStates = signal<Record<string, KeyboardKeyState>>({});
 
   constructor(
     private readonly notificationService: NotificationService,
     private readonly wordleService: WordleService
-  ) {}
+  ) {
+    effect(() => {
+      // Calculate the new states immediately (logic from previous step)
+      const nextStates = this.computeLetterStates();
+
+      // Wait for the animation to finish before updating the UI signal
+      setTimeout(() => {
+        this.keyboardLetterStates.set(nextStates);
+      }, 1500); // Match this to your CSS transition time
+    });
+  }
 
   ngOnInit(): void {
     console.log(this.solution(), 'solution!');
@@ -135,6 +158,8 @@ export class WordleGameComponent implements OnInit {
     }
 
     // guess is valid, we submit their guess
+    this.guesses.update((prev) => [...prev, guess]);
+
     this.rowAttributes.update((prev) =>
       prev.map((attr, i) =>
         i === currentRow ? { ...attr, isSubmitted: true } : attr
@@ -174,6 +199,30 @@ export class WordleGameComponent implements OnInit {
         )
       );
     }, 500);
+  }
+
+  private computeLetterStates(): Record<string, KeyboardKeyState> {
+    const states: Record<string, KeyboardKeyState> = {};
+    const solution = this.solution().toUpperCase();
+
+    this.guesses().forEach((guess) => {
+      guess.split('').forEach((letter, i) => {
+        const upperLetter = letter.toUpperCase();
+        const currentState = states[upperLetter];
+
+        if (currentState === 'correct') return;
+
+        if (upperLetter === solution[i]) {
+          states[upperLetter] = 'correct';
+        } else if (solution.includes(upperLetter)) {
+          states[upperLetter] = 'semicorrect';
+        } else if (!currentState) {
+          states[upperLetter] = 'incorrect';
+        }
+      });
+    });
+
+    return states;
   }
 
   private buildRowAttributes(): RowAttributes {
