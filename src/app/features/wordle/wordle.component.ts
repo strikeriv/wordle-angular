@@ -132,7 +132,6 @@ export class WordleGameComponent implements OnInit {
 
   private onEnterPress() {
     const currentRow = this.getCurrentWordleRow();
-    console.log(currentRow, 'row');
     if (currentRow === -1) {
       return; // no more rows to submit (failed game)
     }
