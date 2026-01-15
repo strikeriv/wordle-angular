@@ -41,6 +41,8 @@ export class WordleGameComponent implements OnInit {
   );
 
   guesses = signal<string[]>([]);
+
+  doCancelInput = false; // when flipping letters and such, cancel input
   gameActive = true;
 
   keyboardLetterStates = signal<Record<string, KeyboardKeyState>>({});
@@ -55,6 +57,7 @@ export class WordleGameComponent implements OnInit {
 
       // Wait for the animation to finish before updating the UI signal
       setTimeout(() => {
+        this.doCancelInput = false;
         this.keyboardLetterStates.set(nextStates);
       }, 1500); // Match this to your CSS transition time
     });
@@ -66,7 +69,7 @@ export class WordleGameComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (!this.gameActive) {
+    if (!this.gameActive || this.doCancelInput) {
       return;
     }
 
@@ -157,6 +160,7 @@ export class WordleGameComponent implements OnInit {
     }
 
     // guess is valid, we submit their guess
+    this.doCancelInput = true;
     this.guesses.update((prev) => [...prev, guess]);
 
     this.rowAttributes.update((prev) =>
