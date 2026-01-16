@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EnterKeyComponent } from './enter-key.component';
+import { KeyboardEnterKeyComponent } from './enter-key.component';
 
-describe('EnterKeyComponent', () => {
-  let component: EnterKeyComponent;
-  let fixture: ComponentFixture<EnterKeyComponent>;
+describe('KeyboardEnterKeyComponent', () => {
+  let component: KeyboardEnterKeyComponent;
+  let fixture: ComponentFixture<KeyboardEnterKeyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EnterKeyComponent]
-    })
-    .compileComponents();
+      imports: [KeyboardEnterKeyComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(EnterKeyComponent);
+    fixture = TestBed.createComponent(KeyboardEnterKeyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

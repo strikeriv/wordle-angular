@@ -6,7 +6,6 @@ import { KeyboardKeyState } from '../../../interfaces/wordle.interface';
   standalone: true,
   imports: [],
   templateUrl: './key.component.html',
-  styleUrl: './key.component.scss',
 })
 export class KeyboardKeyComponent {
   key = input.required<string>();

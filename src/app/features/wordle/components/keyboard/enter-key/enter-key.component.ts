@@ -5,9 +5,8 @@ import { Component, output } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './enter-key.component.html',
-  styleUrl: './enter-key.component.scss',
 })
-export class EnterKeyComponent {
+export class KeyboardEnterKeyComponent {
   enterPressed = output<string>();
 
   onBackpacePressed() {

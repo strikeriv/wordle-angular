@@ -1,22 +1,22 @@
 @keyframes flipLetterIncorrect {
   0% {
     background-color: transparent;
-    border-color: #565758;
+    border-color: var(--cds-border-subtle-02);
 
     transform: rotateX(0deg);
   }
   50% {
     background-color: transparent;
-    border-color: #565758;
+    border-color: var(--cds-border-subtle-02);
 
     transform: rotateX(90deg);
   }
   51% {
-    background-color: #3a3a3c;
+    background-color: var(--cds-layer-02);
     border-color: transparent;
   }
   100% {
-    background-color: #3a3a3c;
+    background-color: var(--cds-layer-02);
     border-color: transparent;
 
     transform: rotateX(0deg);
@@ -26,23 +26,23 @@
 @keyframes flipLetterSemiCorrect {
   0% {
     background-color: transparent;
-    border-color: #565758;
+    border-color: var(--cds-border-subtle-02);
 
     transform: rotateX(0deg);
   }
   50% {
     background-color: transparent;
-    border-color: #565758;
+    border-color: var(--cds-border-subtle-02);
 
     transform: rotateX(90deg);
   }
   51% {
     border-color: transparent;
-    background-color: #b59f3b;
+    background-color: var(--cds-support-warning);
   }
   100% {
     border-color: transparent;
-    background-color: #b59f3b;
+    background-color: var(--cds-support-warning);
     transform: rotateX(0deg);
   }
 }
@@ -50,22 +50,22 @@
 @keyframes flipLetterCorrect {
   0% {
     background-color: transparent;
-    border-color: #565758;
+    border-color: var(--cds-border-subtle-02);
 
     transform: rotateX(0deg);
   }
   50% {
     background-color: transparent;
-    border-color: #565758;
+    border-color: var(--cds-border-subtle-02);
 
     transform: rotateX(90deg);
   }
   51% {
-    background-color: #538d4e;
+    background-color: var(--cds-tag-border-green);
     border-color: transparent;
   }
   100% {
-    background-color: #538d4e;
+    background-color: var(--cds-tag-border-green);
     border-color: transparent;
 
     transform: rotateX(0deg);
@@ -99,28 +99,7 @@
   }
 }
 
-.base {
-  display: flex;
-  user-select: none;
-
-  width: 62px;
-  height: 62px;
-
-  align-items: center;
-  justify-content: center;
-
-  font-size: 32px;
-  font-weight: bold;
-
-  background-color: transparent;
-  border: 2px solid #3a3a3c;
-
-  color: white;
-}
-
 .filled {
-  border-color: #565758;
-
   animation: popOnFilled 0.1s;
 }
 

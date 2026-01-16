@@ -13,9 +13,7 @@
 
 html,
 body {
-  @include styles.theme(styles.$white);
-
-  background-color: #121213;
+  @include styles.theme(styles.$g100);
 
   height: 100vh;
   margin: 0;
@@ -31,4 +29,38 @@ main {
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+
+// Wordle Color classes
+.incorrect-color {
+  background-color: var(--cds-layer-02) !important;
+}
+
+.semi-correct-color {
+  background-color: var(--cds-support-warning) !important;
+}
+
+.correct-color {
+  background-color: var(--cds-tag-border-green) !important;
+}
+
+// Classes to use CDS colors
+.fill-primary {
+  fill: styles.$text-primary;
+}
+
+.text-primary {
+  color: styles.$text-primary;
+}
+
+.accent-1 {
+  background-color: styles.$layer-accent-03;
+}
+
+.border-subtle-1 {
+  border-color: styles.$border-subtle-01;
+}
+
+.border-subtle-2 {
+  border-color: styles.$border-subtle-02;
 }

@@ -28,7 +28,6 @@ import { WordleKeyboardComponent } from './components/keyboard/keyboard.componen
   ],
   providers: [DataService, NotificationService, WordleService],
   templateUrl: './wordle.component.html',
-  styleUrl: './wordle.component.scss',
 })
 export class WordleGameComponent implements OnInit {
   solution = input.required<string>();
@@ -52,19 +51,17 @@ export class WordleGameComponent implements OnInit {
     private readonly wordleService: WordleService
   ) {
     effect(() => {
-      // Calculate the new states immediately (logic from previous step)
       const nextStates = this.computeLetterStates();
 
-      // Wait for the animation to finish before updating the UI signal
       setTimeout(() => {
         this.doCancelInput = false;
         this.keyboardLetterStates.set(nextStates);
-      }, 1500); // Match this to your CSS transition time
+      }, 1500);
     });
   }
 
   ngOnInit(): void {
-    console.log(this.solution(), 'solution!');
+    console.log(this.solution(), 'SOLUTION');
   }
 
   @HostListener('document:keydown', ['$event'])

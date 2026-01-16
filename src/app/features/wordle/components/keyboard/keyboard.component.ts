@@ -1,15 +1,18 @@
 import { Component, input, output } from '@angular/core';
-import { KeyboardKeyComponent } from './key/key.component';
-import { EnterKeyComponent } from './enter-key/enter-key.component';
-import { BackspaceKeyComponent } from './backspace-key/backspace-key.component';
 import { KeyboardKeyState } from '../../interfaces/wordle.interface';
+import { KeyboardBackspaceKeyComponent } from './backspace-key/backspace-key.component';
+import { KeyboardEnterKeyComponent } from './enter-key/enter-key.component';
+import { KeyboardKeyComponent } from './key/key.component';
 
 @Component({
   selector: 'wordle-keyboard',
   standalone: true,
-  imports: [KeyboardKeyComponent, EnterKeyComponent, BackspaceKeyComponent],
+  imports: [
+    KeyboardKeyComponent,
+    KeyboardBackspaceKeyComponent,
+    KeyboardEnterKeyComponent,
+  ],
   templateUrl: './keyboard.component.html',
-  styleUrl: './keyboard.component.scss',
 })
 export class WordleKeyboardComponent {
   keyboardRow1 = ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'];

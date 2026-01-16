@@ -5,9 +5,8 @@ import { Component, output } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './backspace-key.component.html',
-  styleUrl: './backspace-key.component.scss',
 })
-export class BackspaceKeyComponent {
+export class KeyboardBackspaceKeyComponent {
   backspacePressed = output<string>();
 
   onBackpacePressed() {

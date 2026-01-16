@@ -1,9 +1,9 @@
 <button
-  class="base"
+  class="flex select-none w-11 h-14 justify-center items-center text-xl font-bold px-6 rounded-md text-primary accent-1"
   (click)="onKeyPressed()"
-  [class.incorrect]="state() === 'incorrect'"
-  [class.semi-correct]="state() === 'semicorrect'"
-  [class.correct]="state() === 'correct'"
+  [class.incorrect-color]="state() === 'incorrect'"
+  [class.semi-correct-color]="state() === 'semicorrect'"
+  [class.correct-color]="state() === 'correct'"
 >
   {{ key() }}
 </button>

@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BackspaceKeyComponent } from './backspace-key.component';
+import { KeyboardBackspaceKeyComponent } from './backspace-key.component';
 
-describe('BackspaceKeyComponent', () => {
-  let component: BackspaceKeyComponent;
-  let fixture: ComponentFixture<BackspaceKeyComponent>;
+describe('KeyboardBackspaceKeyComponent', () => {
+  let component: KeyboardBackspaceKeyComponent;
+  let fixture: ComponentFixture<KeyboardBackspaceKeyComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BackspaceKeyComponent]
-    })
-    .compileComponents();
+      imports: [KeyboardBackspaceKeyComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(BackspaceKeyComponent);
+    fixture = TestBed.createComponent(KeyboardBackspaceKeyComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

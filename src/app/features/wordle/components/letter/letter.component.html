@@ -1,8 +1,9 @@
 <div
-  class="base"
+  class="flex select-none w-16 h-16 items-center justify-center text-3xl font-bold bg-transparent border-2 border-solid border-subtle-1 text-primary"
   [style.--delay-flip]="index() * 200 + 'ms'"
   [style.--delay-bounce]="index() * 100 + 'ms'"
   [class.filled]="!!letter()"
+  [class.border-subtle-2]="!!letter()"
   [class.bounce]="attributes().isBouncing"
   [class.incorrect]="attributes().isIncorrect"
   [class.semi-correct]="attributes().isSemiCorrect"

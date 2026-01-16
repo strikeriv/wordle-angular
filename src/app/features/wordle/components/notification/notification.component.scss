@@ -8,5 +8,6 @@
 }
 
 .notification {
+  background-color: var(--cds-background-inverse);
   animation: notificationFadeOut 0.25s 1s forwards;
 }
