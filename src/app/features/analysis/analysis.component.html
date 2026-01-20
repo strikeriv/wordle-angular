@@ -1,6 +1,8 @@
-@if(wordleSolution()) {
-<wordle-game [solution]="wordleSolution()" />
-}
+<div class="flex h-full w-full align-center justify-center">
+  @if (wordleSolution()) {
+    <wordle-game class="flex h-full w-[32rem]" [solution]="wordleSolution()" />
+  }
+</div>
 
 <!-- <p>analysis works!</p>
 
