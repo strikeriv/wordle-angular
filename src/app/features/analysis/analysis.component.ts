@@ -1,14 +1,13 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChartsModule, ChartTabularData } from '@carbon/charts-angular';
 import { FrequencyAnalysisService } from '../../services/wordle/analyzer/frequency-analysis.service';
 import { DataService } from '../../services/wordle/data.service';
 import { WordleService } from '../../services/wordle/wordle.service';
-import { WordleGameComponent } from '../wordle/wordle.component';
 
 @Component({
   selector: 'app-analysis',
   standalone: true,
-  imports: [ChartsModule, WordleGameComponent],
+  imports: [ChartsModule],
   providers: [DataService, FrequencyAnalysisService, WordleService],
   templateUrl: './analysis.component.html',
   styleUrl: './analysis.component.scss',
@@ -29,20 +28,10 @@ export class AnalysisComponent implements OnInit {
     height: '400px',
   };
 
-  wordleSolution = signal<string>('');
-
   constructor(
     private readonly dataService: DataService,
-    private readonly frequencyAnalysisService: FrequencyAnalysisService
-  ) {
-    const words = this.dataService.getAllValidWords();
-    const min = 0;
-    const max = words.length;
-
-    this.wordleSolution.set(
-      words[Math.floor(Math.random() * (max - min + 1)) + min].toUpperCase()
-    );
-  }
+    private readonly frequencyAnalysisService: FrequencyAnalysisService,
+  ) {}
 
   ngOnInit(): void {
     this.buildPreExistingSolutionsFrequencyChart();
@@ -51,7 +40,7 @@ export class AnalysisComponent implements OnInit {
   private buildPreExistingSolutionsFrequencyChart() {
     const frequencyData =
       this.frequencyAnalysisService.performFrequencyAnalysisOnWords(
-        this.dataService.getExistingSolutions()
+        this.dataService.getExistingSolutions(),
       );
 
     const testData: ChartTabularData = frequencyData.flatMap((letter) =>
@@ -59,7 +48,7 @@ export class AnalysisComponent implements OnInit {
         group: letter.letter,
         key: `Position: ${freq.position + 1}`,
         value: freq.frequency,
-      }))
+      })),
     );
 
     this.data = testData;

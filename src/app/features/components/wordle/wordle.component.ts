@@ -7,16 +7,13 @@ import {
   signal,
 } from '@angular/core';
 
-import { WordleNotificationComponent } from '../../features/wordle/components/notification/notification.component';
-import { NotificationService } from '../../features/wordle/components/notification/services/notification.service';
-import { WordleRowComponent } from '../../features/wordle/components/row/row.component';
-import {
-  KeyboardKeyState,
-  RowAttributes,
-} from '../../features/wordle/interfaces/wordle.interface';
-import { DataService } from '../../services/wordle/data.service';
-import { WordleService } from '../../services/wordle/wordle.service';
 import { WordleKeyboardComponent } from './components/keyboard/keyboard.component';
+import { WordleNotificationComponent } from './components/notification/notification.component';
+import { WordleRowComponent } from './components/row/row.component';
+import { DataService } from '../../../services/wordle/data.service';
+import { NotificationService } from './components/notification/services/notification.service';
+import { WordleService } from '../../../services/wordle/wordle.service';
+import { KeyboardKeyState, RowAttributes } from './interfaces/wordle.interface';
 
 @Component({
   selector: 'wordle-game',

@@ -1,8 +1,8 @@
 import { Component, effect, input, output, signal } from '@angular/core';
-import { WordleService } from '../../../../services/wordle/wordle.service';
 import { RowAttributes } from '../../interfaces/wordle.interface';
 import { LetterComponent } from '../letter/letter.component';
 import { LetterAttributes } from './interfaces/row.interface';
+import { WordleService } from '../../../../../services/wordle/wordle.service';
 
 @Component({
   selector: 'wordle-row',
@@ -19,7 +19,7 @@ export class WordleRowComponent {
   rowAttributes = input.required<RowAttributes>();
 
   letterAttributes = signal<LetterAttributes[]>(
-    Array.from({ length: 5 }, () => this.buildDefaultAttributes())
+    Array.from({ length: 5 }, () => this.buildDefaultAttributes()),
   );
 
   gameOver = output<number>(); // return # attempts
@@ -35,7 +35,7 @@ export class WordleRowComponent {
   private performSolutionCheck() {
     const solutionSplit = this.solution().split('');
     const letterCounts = this.wordleService.calculateLetterCount(
-      this.solution()
+      this.solution(),
     );
     const existingLetters = new Map<string, number>();
 

@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { AnalysisComponent } from './features/analysis/analysis.component';
+import { PlayTodayComponent } from './features/play/today/today.component';
 
 export const routes: Routes = [
   {
-    path: '',
-    component: AnalysisComponent,
+    path: 'play/today',
+    component: PlayTodayComponent,
   },
 ];

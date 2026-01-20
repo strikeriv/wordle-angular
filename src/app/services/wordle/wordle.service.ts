@@ -8,18 +8,21 @@ import { DataService } from './data.service';
 export class WordleService {
   constructor(
     private readonly dataService: DataService,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
   ) {}
 
   getWordleToday(): Observable<WordleSolution> {
     const today = new Date();
+    return this.getWordleForSpecificDate(today);
+  }
 
-    const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+  getWordleForSpecificDate(date: Date): Observable<WordleSolution> {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
 
     return this.http.get<WordleSolution>(
-      `https://cors-anywhere.herokuapp.com/https://www.nytimes.com/svc/wordle/v2/${year}-${month}-${day}.json`
+      `https://cors-anywhere.herokuapp.com/https://www.nytimes.com/svc/wordle/v2/${year}-${month}-${day}.json`,
     );
   }
 
