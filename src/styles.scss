@@ -13,7 +13,7 @@
 
 html,
 body {
-  @include styles.theme(styles.$g100);
+  @include styles.theme(styles.$white);
 
   height: 100vh;
   margin: 0;
@@ -33,7 +33,7 @@ main {
 
 // Wordle Color classes
 .incorrect-color {
-  background-color: var(--cds-layer-02) !important;
+  background-color: var(--cds-border-strong-02) !important;
 }
 
 .semi-correct-color {
@@ -46,11 +46,11 @@ main {
 
 // Classes to use CDS colors
 .fill-primary {
-  fill: styles.$text-primary;
+  fill: styles.$text-on-color;
 }
 
 .text-primary {
-  color: styles.$text-primary;
+  color: styles.$text-on-color;
 }
 
 .accent-1 {
