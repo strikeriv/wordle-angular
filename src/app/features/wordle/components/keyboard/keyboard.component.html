@@ -1,31 +1,33 @@
-<div class="flex flex-col items-center justify-center gap-[6px]">
-  <div class="flex flex-row gap-[6px]">
-    @for(key of keyboardRow1; track $index) {
-    <keyboard-key
-      [key]="key"
-      [state]="getKeyState(key)"
-      (keyPressed)="onKeyboardButtonPress($event)"
-    />
+<div class="flex flex-col items-center justify-center gap-[6px] w-full">
+  <div class="flex flex-row w-full justify-between">
+    @for (key of keyboardRow1; track $index) {
+      <keyboard-key
+        [key]="key"
+        [state]="getKeyState(key)"
+        (keyPressed)="onKeyboardButtonPress($event)"
+      />
     }
   </div>
-  <div class="flex flex-row gap-[6px]">
-    @for(key of keyboardRow2; track $index) {
-    <keyboard-key
-      [key]="key"
-      [state]="getKeyState(key)"
-      (keyPressed)="onKeyboardButtonPress($event)"
-    />
+  <div class="flex flex-row w-full justify-between">
+    <div class="w-4"></div>
+    @for (key of keyboardRow2; track $index) {
+      <keyboard-key
+        [key]="key"
+        [state]="getKeyState(key)"
+        (keyPressed)="onKeyboardButtonPress($event)"
+      />
     }
+    <div class="w-4"></div>
   </div>
-  <div class="flex flex-row gap-[6px]">
+  <div class="flex flex-row w-full justify-between">
     <keyboard-enter-key (enterPressed)="onKeyboardButtonPress($event)" />
 
-    @for(key of keyboardRow3; track $index) {
-    <keyboard-key
-      [key]="key"
-      [state]="getKeyState(key)"
-      (keyPressed)="onKeyboardButtonPress($event)"
-    />
+    @for (key of keyboardRow3; track $index) {
+      <keyboard-key
+        [key]="key"
+        [state]="getKeyState(key)"
+        (keyPressed)="onKeyboardButtonPress($event)"
+      />
     }
 
     <keyboard-backspace-key

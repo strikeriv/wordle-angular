@@ -1,24 +1,26 @@
 <div
-  class="flex-1 flex flex-col h-full items-center relative p-4 2xl:p-16 touch-manipulation"
+  class="flex-1 flex flex-col w-full h-full items-center relative py-4 2xl:py-16 touch-manipulation"
 >
   <wordle-notification />
 
   <div class="flex flex-col gap-[5px]">
-    @for(wordleRow of rows; track $index) {
-    <wordle-row
-      class="w-min"
-      [index]="$index"
-      [letters]="rows[$index]"
-      [solution]="solution()"
-      [rowAttributes]="rowAttributes()[$index]"
-      (gameOver)="handleGameOver($event)"
-    />
+    @for (wordleRow of rows; track $index) {
+      <wordle-row
+        class="w-min"
+        [index]="$index"
+        [letters]="rows[$index]"
+        [solution]="solution()"
+        [rowAttributes]="rowAttributes()[$index]"
+        (gameOver)="handleGameOver($event)"
+      />
     }
   </div>
 
-  <div class="flex flex-1 justify-center items-center w-full h-max">
+  <div
+    class="flex flex-1 justify-center items-center w-full h-max touch-manipulation pt-4 2xl:pt-16"
+  >
     <wordle-keyboard
-      class="w-full px-2"
+      class="w-full px-3"
       [letterStates]="keyboardLetterStates()"
       (wordleKeyboardPressed)="onWordleKeyboardPressed($event)"
     />
